@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<robot name="lever">
+    <material name="white">
+        <color rgba="1.0 1.0 1.0 1.0"/>
+    </material>
+    <link name="base_link">
+        <visual>
+            <geometry>
+                <box size="0.1 0.1 0.1"/>
+            </geometry>
+            <material name="white"/>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.1 0.1 0.1"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.1"/>
+            <inertia ixx="0.1" ixy="0.0" ixz="0.0" iyy="0.1" iyz="0.0" izz="0.1"/>
+        </inertial>
+    </link>
+    <link name="lever">
+        <visual>
+            <geometry>
+                <cylinder radius="0.01" length="1.0"/>
+            </geometry>
+            <material name="white"/>
+            <origin rpy="0.0 0.0 0.0" xyz="-0.01 0.0 0.3"/>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder radius="0.01" length="1.0"/>
+            </geometry>
+            <origin rpy="0.0 0.0 0.0" xyz="-0.01 0.0 0.3"/>
+        </collision>
+        <inertial>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <mass value="1.0"/>
+            <inertia ixx="0.1" ixy="0.1" ixz="0.1" iyy="0.1" iyz="0.1" izz="0.1"/>
+        </inertial>
+    </link>
+    <joint name="basetolever" type="revolute">
+        <parent link="base_link"/>
+        <child link="lever"/>
+        <origin xyz="-0.05 0.0 0.0"/>
+        <axis xyz="1.0 0.0 0.0"/>
+        <limit lower="-0.3" upper="0.3" effort="10.0" velocity="10.0"/>
+    </joint>
+    <link name="lever_end">
+        <collision>
+            <geometry>
+                <sphere radius="0.001"/>
+            </geometry>
+            <origin xyz="0.0 0.0 -0.001"/>
+        </collision>
+        <mass value="0.001"/>
+    </link>
+    <joint name="possensor" type="fixed">
+        <parent link="lever"/>
+        <child link="lever_end"/>
+        <origin xyz="-0.001 0.0 -0.3"/>
+    </joint>
+</robot>
