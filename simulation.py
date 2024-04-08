@@ -7,8 +7,8 @@ def run_simulation(params):
     physicsClient = p.connect(p.GUI)
     p.setAdditionalSearchPath(pybullet_data.getDataPath())
     planeId = p.loadURDF("plane.urdf")
-    elevatorId = p.loadURDF("C:\\Users\\Den\\Desktop\\pybullet\\code\\elevator.urdf", [0,0,1], useFixedBase=1, flags=p.URDF_USE_SELF_COLLISION)
-    leverId = p.loadURDF("C:\\Users\\Den\\Desktop\\pybullet\\code\\lever.urdf", [1,0,1.3], p.getQuaternionFromEuler([0, 0, np.pi/2]), useFixedBase=1)
+    elevatorId = p.loadURDF("elevator.urdf", [0,0,1], useFixedBase=1, flags=p.URDF_USE_SELF_COLLISION)
+    leverId = p.loadURDF("lever.urdf", [1,0,1.3], p.getQuaternionFromEuler([0, 0, np.pi/2]), useFixedBase=1)
     wx, wy, wz = p.getLinkState(elevatorId, 4)[0]
     springId = p.createConstraint(elevatorId, 3, -1, -1, p.JOINT_FIXED, [0,0,0], [0,0,-0.25], [wx, wy, wz])
     kId = p.addUserDebugParameter("k",0,1000,500)
