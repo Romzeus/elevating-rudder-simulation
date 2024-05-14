@@ -5,28 +5,27 @@ import threading
 
 hostIp = "localhost"
 hostPort = 9999
-receiveSock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-receiveSock.bind((hostIp, hostPort))
-sendSock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-udpIp = "127.0.0.1"
-udpPort = 5005
+udp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+udp.bind((hostIp, hostPort))
+loaderIp = "192.168.4.1"
+loaderPort = 8888
 
 def receive(params):
-    global receiveSock
+    global udp
     while True:
         try:
-            message, addr = receiveSock.recvfrom(1024)
+            message, addr = udp.recvfrom(8)
             params["angle"] = float(message.decode())
         except:
             pass
 
 def transmit(params):
-    global sendSock, udpIp, udpPort
+    global udp, loaderIp, loaderPort
     while True:
-        sendSock.sendto(bytes(params["f"], "utf-8"), (udpIp, udpPort))
+        udp.sendto(bytes(params["f"], "utf-8"), (loaderIp, loaderPort))
         sleep(1./240.)
 
-params = {"f":0,"angle":0,"t":0}
+params = {"f":0,"angle":0}
 sim = threading.Thread(target=run_simulation,args=(params,))
 rec = threading.Thread(target=receive,args=(params,), daemon=True)
 tran = threading.Thread(target=transmit,args=(params,), daemon=True)
